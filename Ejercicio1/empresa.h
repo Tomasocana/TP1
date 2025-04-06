@@ -15,7 +15,7 @@ class EntidadOrganizativa{
         int contarSubentidades();
 };
 
-class Empresa : public EntidadOrganizativa , public CentralRegional{
+class Empresa : public EntidadOrganizativa {
     private:
         vector<Departamento> departamentos;
     public:
@@ -38,7 +38,7 @@ class CentralRegional : EntidadOrganizativa{
         vector<GerenteMedio> getGerentesMedio();
 };
 
-class Departamento : public Empresa{
+class Departamento {
     private:
         vector<Empleado> empleados;
     public:
@@ -50,7 +50,7 @@ class Departamento : public Empresa{
         bool despedirEmpleado(Empleado empleado);
 };
 
-class Empleado : public Departamento{
+class Empleado {
     private:
         int antiguedad;
         float salario;
@@ -72,11 +72,11 @@ class Manager : Empleado{
         bool setLevel(string level);
 };
 
-class GerenteMedio : public Manager, public CentralRegional{
+class GerenteMedio : public Manager{
 
 };
 
-class GerenteAlto : public Manager, public CentralRegional{
+class GerenteAlto : public Manager{
 
 };
 
