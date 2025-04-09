@@ -11,19 +11,32 @@ using namespace std;
 // Interfaz de personajes
 class personajes{
     public:
+        virtual shared_ptr<armas> getPrimaryWP() = 0; 
+        virtual string getName() = 0;
+        virtual void decreaseHP() = 0;
+        virtual void increaseHP() = 0;
+        virtual string getUltimate() = 0;
         virtual bool isDead() = 0;
         virtual int getHP() = 0;
-        virtual void setArma(shared_ptr<armas> arma) = 0;
+        virtual void setArma(vector<shared_ptr<armas>> arma) = 0;
 };
 
 // Clase de magos
 class Magos : public personajes{
     public:
-        Magos();
+        Magos(const string name) : name(name) {}
+        shared_ptr<armas> getPrimaryWP() override;
+        string getName() override;
+        void decreaseHP() override;
+        void increaseHP() override;
+        virtual string getUltimate() = 0;
         bool isDead() override;
         int getHP() override;
-        void setArma(shared_ptr<armas> arma) override;
+        void setArma(vector<shared_ptr<armas>> arma) override;
     protected:
+        string name;
+        shared_ptr<armas> primaryWP = nullptr;
+        shared_ptr<armas> secondaryWP = nullptr;
         int HP = 100;
         int MANA = 100;
 };
@@ -31,11 +44,19 @@ class Magos : public personajes{
 // Clase de guerreros
 class Guerreros : public personajes{
     public:
-        Guerreros();
+        Guerreros(const string name) : name(name) {}
+        shared_ptr<armas> getPrimaryWP() override;
+        string getName() override;
+        void decreaseHP() override;
+        void increaseHP() override;
+        virtual string getUltimate() = 0;
         bool isDead() override;
         int getHP() override;
-        void setArma(shared_ptr<armas> arma) override;
+        void setArma(vector<shared_ptr<armas>> arma) override;
     protected:
+        string name;
+        shared_ptr<armas> primaryWP = nullptr;
+        shared_ptr<armas> secondaryWP = nullptr;
         int HP;
         int STAMINA;
 };
@@ -45,7 +66,7 @@ class Guerreros : public personajes{
 // i
 class Hechicero : public Magos{
     public:
-        Hechicero() : Magos() {}
+        Hechicero() : Magos("Hechicero") {}
         void ataqueFuerte();
         void ataqueRapido();
         void defenderse();
@@ -62,7 +83,7 @@ class Hechicero : public Magos{
 // ii
 class conjurador : public Magos{
     public:
-        conjurador() : Magos() {}
+        conjurador() : Magos("Conjurador") {}
         void ataqueFuerte();
         void ataqueRapido();
         void defenderse();
@@ -79,7 +100,7 @@ class conjurador : public Magos{
 // iii
 class brujo : public Magos{
     public:
-        brujo() : Magos() {}
+        brujo() : Magos("Brujo") {}
         void ataqueFuerte();
         void ataqueRapido();
         void defenderse();
@@ -96,7 +117,7 @@ class brujo : public Magos{
 // iv
 class nigromante : public Magos{
     public:
-        nigromante() : Magos() {}
+        nigromante() : Magos("Nigromante") {}
         void ataqueFuerte();
         void ataqueRapido();
         void defenderse();
@@ -116,7 +137,7 @@ class nigromante : public Magos{
 // i
 class barbaro : public Guerreros{
     public:
-        barbaro() : Guerreros() {}
+        barbaro() : Guerreros("Bárbaro") {}
         void ataqueFuerte();
         void ataqueRapido();
         void defenderse();
@@ -133,7 +154,7 @@ class barbaro : public Guerreros{
 // ii
 class paladin : public Guerreros{
     public:
-        paladin() : Guerreros() {}
+        paladin() : Guerreros("Paladín") {}
         void ataqueFuerte();
         void ataqueRapido();
         void defenderse();
@@ -150,7 +171,7 @@ class paladin : public Guerreros{
 // iii
 class caballero : public Guerreros{
     public:
-        caballero() : Guerreros() {}
+        caballero() : Guerreros("Caballero") {}
         void ataqueFuerte();
         void ataqueRapido();
         void defenderse();
@@ -167,7 +188,7 @@ class caballero : public Guerreros{
 // iv
 class mercenario : public Guerreros{
     public:
-        mercenario() : Guerreros() {}
+        mercenario() : Guerreros("Mercenario") {}
         void ataqueFuerte();
         void ataqueRapido();
         void defenderse();
@@ -184,7 +205,7 @@ class mercenario : public Guerreros{
 // v
 class gladiador : public Guerreros{
     public:
-        gladiador() : Guerreros() {}
+        gladiador() : Guerreros("Gladiador") {}
         void ataqueFuerte();
         void ataqueRapido();
         void defenderse();

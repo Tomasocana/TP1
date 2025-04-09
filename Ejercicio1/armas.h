@@ -8,29 +8,40 @@ using namespace std;
 // Interfaz de armas
 class armas{
     public:
+        virtual string golpeFuerte() = 0;
+        virtual string golpeRapido() = 0;
         virtual int getDamage() = 0;
         virtual string getType() = 0;
         virtual bool usesMana() = 0;
+        virtual string getName() = 0;
 };
 
 // Clase de items magicos
 class ItemsMagicos : public armas{
     public:
-        ItemsMagicos(string type);
+        ItemsMagicos(string name) : name(name) {}
+        string getName() override;
+        virtual string golpeFuerte() override;
+        virtual string golpeRapido() override;
         int getDamage() override;
         string getType() override;
         bool usesMana() override;
     protected:
-        string type;
+        string name;
 };
 
 // Clase de armas de combate 
 class ArmasDeCombate : public armas{
     public:
-        ArmasDeCombate();
+        ArmasDeCombate(string name) : name(name) {}   
+        string getName() override;
+        virtual string golpeFuerte() override;
+        virtual string golpeRapido() override;
         int getDamage() override;
         string getType() override;
         bool usesMana() override;
+    protected:
+        string name;
 };
 
 // Items mágicos
@@ -38,9 +49,9 @@ class ArmasDeCombate : public armas{
 // i
 class varita : public ItemsMagicos{
     public:
-        varita() : ItemsMagicos("Ataque") {}
-        string golpeFuerte();
-        string golpeRapido();
+        varita() : ItemsMagicos("Varita") {}
+        string golpeFuerte() override;
+        string golpeRapido() override;
         int getManaCost();
         int getCriticalChance();
         int defender();
@@ -55,9 +66,9 @@ class varita : public ItemsMagicos{
 // ii
 class LibroHechizos : public ItemsMagicos{
     public:
-        LibroHechizos() : ItemsMagicos("Ataque") {}
-        string golpeFuerte();
-        string golpeRapido();
+        LibroHechizos() : ItemsMagicos("Libro de Hechizos") {}
+        string golpeFuerte() override;
+        string golpeRapido() override;
         int defender();
         int getManaCost();
         int getCriticalChance();
@@ -72,7 +83,7 @@ class LibroHechizos : public ItemsMagicos{
 // iii
 class PocionDeVida : public ItemsMagicos{
     public:
-        PocionDeVida() : ItemsMagicos("Consumible"), restore(20) {}
+        PocionDeVida() : ItemsMagicos("Poción de Vida"), restore(20) {}
         void consumePotion();
 
     private:
@@ -83,7 +94,7 @@ class PocionDeVida : public ItemsMagicos{
 // iv
 class AmuletoDeVida : public ItemsMagicos{
     public:
-        AmuletoDeVida() : ItemsMagicos("Equipable"), stat(20) {}
+        AmuletoDeVida() : ItemsMagicos("Amuleto de Vida"), stat(20) {}
         void asignarAmuleto();
     private:
         int stat;
@@ -96,9 +107,9 @@ class AmuletoDeVida : public ItemsMagicos{
 // i
 class Hacha_giratoria : public ArmasDeCombate{
     public:
-        Hacha_giratoria() : ArmasDeCombate(), costoEstamina(15), criticalChance(20) {}
-        string golpeFuerte();
-        string golpeRapido();
+        Hacha_giratoria() : ArmasDeCombate("Hacha Giratoria"), costoEstamina(15), criticalChance(20) {}
+        string golpeFuerte() override;
+        string golpeRapido() override;
         int defender();
         int getCostoEstamina();
         int getCriticalChance();
@@ -113,9 +124,9 @@ class Hacha_giratoria : public ArmasDeCombate{
 // ii
 class Hoja_de_viento : public ArmasDeCombate{
     public:
-        Hoja_de_viento() : ArmasDeCombate(), costoEstamina(15), criticalChance(20) {}
-        string golpeFuerte();
-        string golpeRapido();
+        Hoja_de_viento() : ArmasDeCombate("Hoja de Viento"), costoEstamina(15), criticalChance(20) {}
+        string golpeFuerte() override;
+        string golpeRapido() override;
         int defender();
         int getCostoEstamina();
         int getCriticalChance();
@@ -130,9 +141,9 @@ class Hoja_de_viento : public ArmasDeCombate{
 // iii
 class Aguja_sombria : public ArmasDeCombate{
     public:
-        Aguja_sombria() : ArmasDeCombate(), costoEstamina(15), criticalChance(20) {}
-        string golpeFuerte();
-        string golpeRapido();
+        Aguja_sombria() : ArmasDeCombate("Aguja Sombría"), costoEstamina(15), criticalChance(20) {}
+        string golpeFuerte() override;
+        string golpeRapido() override;
         int defender();
         int getCostoEstamina();
         int getCriticalChance();
@@ -147,9 +158,9 @@ class Aguja_sombria : public ArmasDeCombate{
 // iv
 class Espada_de_los_oscuros : public ArmasDeCombate{
     public:
-        Espada_de_los_oscuros() : ArmasDeCombate(), costoEstamina(15), criticalChance(20) {}
-        string golpeFuerte();
-        string golpeRapido();
+        Espada_de_los_oscuros() : ArmasDeCombate("Espada de los Oscuros"), costoEstamina(15), criticalChance(20) {}
+        string golpeFuerte() override;
+        string golpeRapido() override;
         int defender();
         int getCostoEstamina();
         int getCriticalChance();
@@ -164,9 +175,9 @@ class Espada_de_los_oscuros : public ArmasDeCombate{
 // v
 class Tridente_colosal : public ArmasDeCombate{
     public:
-        Tridente_colosal() : ArmasDeCombate(), costoEstamina(15), criticalChance(20) {}
-        string golpeFuerte();
-        string golpeRapido();
+        Tridente_colosal() : ArmasDeCombate("Tridente Colosal"), costoEstamina(15), criticalChance(20) {}
+        string golpeFuerte() override;
+        string golpeRapido() override;
         int defender();
         int getCostoEstamina();
         int getCriticalChance();
