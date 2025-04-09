@@ -14,7 +14,7 @@ class armas{
 };
 
 // Clase de items magicos
-class ItemsMagicos : private armas{
+class ItemsMagicos : public armas{
     public:
         ItemsMagicos(string type);
         int getDamage() override;
@@ -25,17 +25,15 @@ class ItemsMagicos : private armas{
 };
 
 // Clase de armas de combate 
-class ArmasDeCombate : private armas{
+class ArmasDeCombate : public armas{
     public:
-        ArmasDeCombate() : type("Arma cuerpo a cuerpo") {}
+        ArmasDeCombate();
         int getDamage() override;
         string getType() override;
         bool usesMana() override;
-    protected:
-        string type;
 };
 
-// Empiezo con 5 items mágicos
+// Items mágicos
 
 // i
 class varita : public ItemsMagicos{
@@ -83,17 +81,6 @@ class PocionDeVida : public ItemsMagicos{
 };
 
 // iv
-
-class PocionDeMana : public ItemsMagicos{
-    public:
-        PocionDeMana() : ItemsMagicos("Consumible"), restore(20) {}
-        void consumePotion();
-    
-    private:
-        int restore;
-};
-
-// v
 class AmuletoDeVida : public ItemsMagicos{
     public:
         AmuletoDeVida() : ItemsMagicos("Equipable"), stat(20) {}
