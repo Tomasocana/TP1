@@ -18,9 +18,19 @@ void batalla(shared_ptr<personajes> pj1, shared_ptr<personajes> cpu){
 
             shared_ptr<armas> pj1_primary = pj1->getPrimaryWP();
             shared_ptr<armas> cpu_primary = cpu->getPrimaryWP();
+
+            if(pj1_primary == nullptr){
+                cout << "El " << pj1->getName() << " no tiene arma! Por ende recibe una aplastante derrota por parte del " << cpu->getName() << "." << endl;
+                cpu_winner = true;
+                break;
+            }else if (cpu_primary == nullptr){
+                cout << "El " << cpu->getName() << " no tiene arma! Por ende recibe una aplastante derrota por parte del " << pj1->getName() << "." << endl;
+                player_winner = true;
+                break;
+            }
         
             if(pj1_choice == cpu_choice) continue;
-            else if((pj1_choice == "Golpe Fuerte" && cpu_choice == "Golpe Rápido") || (pj1_choice == "Golpe Rápido" && cpu_choice == "Defensa y Golpe") || (pj1_choice == "Defensa y Golpe" && cpu_choice == "Golpe Fuerte")){
+            else if((pj1_choice == "Golpe Fuerte" && cpu_choice == "Golpe Rápido") || (pj1_choice == "Golpe Rápido" && cpu_choice == "Defensa y Golpe")){
                 if(cpu->getHP()-10 < 0){
                     cout << "El " << cpu->getName() << " cae derrotado al suelo, y el " << pj1->getName() << " utiliza su ultimo ataque: " << pj1->getUltimate() << ". Ejecutandolo y consagrandose con la victoria." << endl; 
                     if(((rand() / RAND_MAX) * (10 - 0) + 0) == 1){ 
@@ -31,7 +41,28 @@ void batalla(shared_ptr<personajes> pj1, shared_ptr<personajes> cpu){
                     cout << "El " << pj1->getName() << " ataca con su " << pj1_primary->getName() << " lanzando un " << pj1_primary->golpeFuerte() << " contra el " << cpu->getName() << " infligiendole 10 puntos de daño " << endl;
                     cpu->decreaseHP();
                 }
-
+            }else if(pj1_choice == "Defensa y Golpe" && cpu_choice == "Golpe Fuerte"){
+                if(cpu->getHP()-10 < 0){
+                    cout << "El " << cpu->getName() << " cae derrotado al suelo, y el " << pj1->getName() << " utiliza su ultimo ataque: " << pj1->getUltimate() << ". Ejecutandolo y consagrandose con la victoria." << endl; 
+                    if(((rand() / RAND_MAX) * (10 - 0) + 0) == 1){ 
+                        cout << "Pero espera... la batalla no acabó. ¡" << cpu->getName() << " ha tenido un ascenso divino y ha vuelto de la muerte con 10 puntos de vida extra! ¡Que siga la batalla!" << endl;
+                        cpu->increaseHP();
+                    } else player_winner = true;
+                }else{
+                    cout << "El " << pj1->getName() << " se defiende utilizando " << pj1_primary->defender() << " desviando el ataque del " << cpu->getName() << " e infligiendole daño." << endl;
+                    cpu->decreaseHP();
+                }
+            }else if(pj1_choice == "Golpe Fuerte" && cpu_choice == "Defensa y Golpe"){
+                if(pj1->getHP()-10 < 0){
+                    cout << "El " << pj1->getName() << " cae derrotado al suelo, y el " << cpu->getName() << " utiliza su ultimo ataque: " << cpu->getUltimate() << ". Ejecutandolo y consagrandose con la victoria." << endl; 
+                    if(((rand() / RAND_MAX) * (10 - 0) + 0) == 1){ 
+                        cout << "Pero espera... la batalla no acabó. ¡" << pj1->getName() << " ha tenido un ascenso divino y ha vuelto de la muerte con 10 puntos de vida extra! ¡Que siga la batalla!" << endl;
+                        pj1->increaseHP();
+                    } else cpu_winner = true;
+                }else{
+                    cout << "El " << cpu->getName() << " se defiende utilizando " << cpu_primary->defender() << " desviando el ataque del " << pj1->getName() << " e infligiendole daño." << endl;
+                    pj1->decreaseHP();
+                }
             }else{
                 if(pj1->getHP()-10 < 0){
                     cout << "El " << pj1->getName() << " cae derrotado al suelo, y el " << cpu->getName() << " utiliza su ultimo ataque: " << cpu->getUltimate() << ". Ejecutandolo y consagrandose con la victoria." << endl; 

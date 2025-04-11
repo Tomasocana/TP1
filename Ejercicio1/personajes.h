@@ -6,34 +6,38 @@
 
 using namespace std;
 
-//"Ascenso divino"
-
 // Interfaz de personajes
 class personajes{
     public:
         virtual shared_ptr<armas> getPrimaryWP() = 0; 
         virtual string getName() = 0;
+        virtual string getUltimate() = 0;
         virtual void decreaseHP() = 0;
         virtual void increaseHP() = 0;
-        virtual string getUltimate() = 0;
+        virtual void setArma(vector<shared_ptr<armas>> arma) = 0;
         virtual bool isDead() = 0;
         virtual int getHP() = 0;
-        virtual void setArma(vector<shared_ptr<armas>> arma) = 0;
 };
 
 // Clase de magos
 class Magos : public personajes{
     public:
-        Magos(const string name) : name(name) {}
-        shared_ptr<armas> getPrimaryWP() override;
-        string getName() override;
+        Magos(const string name, const string ultimate) : name(name), ultimate(ultimate) {}
+        virtual string getUltimate() override;
+        virtual string getUltimate() = 0;
         void decreaseHP() override;
         void increaseHP() override;
-        virtual string getUltimate() = 0;
+        void setArma(vector<shared_ptr<armas>> arma) override;
         bool isDead() override;
         int getHP() override;
-        void setArma(vector<shared_ptr<armas>> arma) override;
+        int getMana();
+        string getName() override;
+        string ataqueFuerte();
+        string ataqueRapido();
+        string defenderse();
+        shared_ptr<armas> getPrimaryWP() override;
     protected:
+        string ultimate;
         string name;
         shared_ptr<armas> primaryWP = nullptr;
         shared_ptr<armas> secondaryWP = nullptr;
@@ -44,16 +48,22 @@ class Magos : public personajes{
 // Clase de guerreros
 class Guerreros : public personajes{
     public:
-        Guerreros(const string name) : name(name) {}
-        shared_ptr<armas> getPrimaryWP() override;
-        string getName() override;
+        Guerreros(const string name, const string ultimate) : name(name), ultimate(ultimate) {}
+        virtual string getUltimate() override;
+        virtual string getUltimate() = 0;
         void decreaseHP() override;
         void increaseHP() override;
-        virtual string getUltimate() = 0;
-        bool isDead() override;
-        int getHP() override;
         void setArma(vector<shared_ptr<armas>> arma) override;
+        int getStamina();
+        int getHP() override;
+        string ataqueFuerte();
+        string ataqueRapido();
+        string defenderse();
+        string getName() override;
+        shared_ptr<armas> getPrimaryWP() override;
+        bool isDead() override;
     protected:
+        string ultimate;
         string name;
         shared_ptr<armas> primaryWP = nullptr;
         shared_ptr<armas> secondaryWP = nullptr;
@@ -66,14 +76,9 @@ class Guerreros : public personajes{
 // i
 class Hechicero : public Magos{
     public:
-        Hechicero() : Magos("Hechicero") {}
-        void ataqueFuerte();
-        void ataqueRapido();
-        void defenderse();
-        vector<armas> waponInHand();
-        void getMana();
+        Hechicero() : Magos("Hechicero", "Oleada del vacío") {}
+        string getUltimate();
     private:
-        string ultimate = "Oleada del vacío";
         string elemento = "Fuego";
         int resistenciaMagica = 50;
         int afinidadMagica = 70;
@@ -83,14 +88,9 @@ class Hechicero : public Magos{
 // ii
 class conjurador : public Magos{
     public:
-        conjurador() : Magos("Conjurador") {}
-        void ataqueFuerte();
-        void ataqueRapido();
-        void defenderse();
-        vector<armas> waponInHand();
-        void getMana();
+        conjurador() : Magos("Conjurador", "Chispa final") {}
+        string getUltimate();
     private:
-        string ultimate = "Chispa final";
         string elemento = "Oscuridad";
         int resistenciaMagica = 15;
         int afinidadMagica = 90;
@@ -100,14 +100,9 @@ class conjurador : public Magos{
 // iii
 class brujo : public Magos{
     public:
-        brujo() : Magos("Brujo") {}
-        void ataqueFuerte();
-        void ataqueRapido();
-        void defenderse();
-        vector<armas> waponInHand();
-        void getMana();
+        brujo() : Magos("Brujo", "Veredicto divino") {}
+        string getUltimate();
     private:
-        string ultimate = "Veredicto divino";
         string elemento = "Luz";
         int resistenciaMagica = 0;
         int afinidadMagica = 100;
@@ -117,14 +112,9 @@ class brujo : public Magos{
 // iv
 class nigromante : public Magos{
     public:
-        nigromante() : Magos("Nigromante") {}
-        void ataqueFuerte();
-        void ataqueRapido();
-        void defenderse();
-        vector<armas> waponInHand();
-        void getMana();
+        nigromante() : Magos("Nigromante", "Cataclismo") {}
+        string getUltimate();
     private:
-        string ultimate = "Cataclismo";
         string elemento = "Veneno";
         int resistenciaMagica = 10;
         int afinidadMagica = 40;
@@ -137,14 +127,9 @@ class nigromante : public Magos{
 // i
 class barbaro : public Guerreros{
     public:
-        barbaro() : Guerreros("Bárbaro") {}
-        void ataqueFuerte();
-        void ataqueRapido();
-        void defenderse();
-        vector<armas> waponInHand();
-        void getStamina();
+        barbaro() : Guerreros("Bárbaro", "Ejecución perfecta") {}
+        string getUltimate();
     private:
-        string ultimate = "Ejecución perfecta";
         int agilidad = 15;
         int velocidad = 22;
         int fuerza = 70;
@@ -154,14 +139,9 @@ class barbaro : public Guerreros{
 // ii
 class paladin : public Guerreros{
     public:
-        paladin() : Guerreros("Paladín") {}
-        void ataqueFuerte();
-        void ataqueRapido();
-        void defenderse();
-        vector<armas> waponInHand();
-        void getStamina();
+        paladin() : Guerreros("Paladín", "Espiral de la muerte") {}
+        string getUltimate();
     private:
-        string ultimate = "Espiral de la muerte";
         int agilidad = 15;
         int velocidad = 30;
         int fuerza = 50;
@@ -171,14 +151,9 @@ class paladin : public Guerreros{
 // iii
 class caballero : public Guerreros{
     public:
-        caballero() : Guerreros("Caballero") {}
-        void ataqueFuerte();
-        void ataqueRapido();
-        void defenderse();
-        vector<armas> waponInHand();
-        void getStamina();
+        caballero() : Guerreros("Caballero", "Abajo del telón") {}
+        string getUltimate();
     private:
-        string ultimate = "Abajo del telón";
         int agilidad = 40;
         int velocidad = 45;
         int fuerza = 50;
@@ -188,14 +163,9 @@ class caballero : public Guerreros{
 // iv
 class mercenario : public Guerreros{
     public:
-        mercenario() : Guerreros("Mercenario") {}
-        void ataqueFuerte();
-        void ataqueRapido();
-        void defenderse();
-        vector<armas> waponInHand();
-        void getStamina();
+        mercenario() : Guerreros("Mercenario", "Llamada del destino") {}
+        string getUltimate();
     private:
-        string ultimate = "Llamada del destino";
         int agilidad = 80;
         int velocidad = 90;
         int fuerza = 30;
@@ -205,14 +175,9 @@ class mercenario : public Guerreros{
 // v
 class gladiador : public Guerreros{
     public:
-        gladiador() : Guerreros("Gladiador") {}
-        void ataqueFuerte();
-        void ataqueRapido();
-        void defenderse();
-        vector<armas> waponInHand();
-        void getStamina();
+        gladiador() : Guerreros("Gladiador", "Frenesí sanguinario") {}
+        string getUltimate();
     private:
-        string ultimate = "Frenesí sanguinario";
         int agilidad = 70;
         int velocidad = 80;
         int fuerza = 60;
