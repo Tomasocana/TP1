@@ -5,12 +5,16 @@
 
 using namespace std;
 
+class personajes;
+
 // Interfaz de armas
 class armas{
     public:
-        virtual string getName() = 0;
-        virtual int getCriticalChance() = 0;
         virtual bool usesMana() = 0;
+        virtual string getName() = 0;
+        virtual string golpeFuerte() = 0;
+        virtual string golpeRapido() = 0;
+        virtual string defender() = 0;
 };
 
 // Clase de items magicos
@@ -22,8 +26,6 @@ class ItemsMagicos : public armas{
         virtual string defender() = 0;
         string getName() override;
         bool usesMana() override;
-        int getCriticalChance();
-        int getManaCost();
     protected:
         string name;
 };
@@ -31,7 +33,7 @@ class ItemsMagicos : public armas{
 // Clase de armas de combate 
 class ArmasDeCombate : public armas{
     public:
-        ArmasDeCombate(string name, int costoEstamina, int criticalChance) : name(name), costoEstamina(costoEstamina), criticalChance(criticalChance) {}   
+        ArmasDeCombate(string name, int costoEstamina, int criticalChance) : name(name), costoEstamina(costoEstamina), criticalChance(criticalChance) {}  
         virtual string golpeFuerte() = 0;
         virtual string golpeRapido() = 0;
         virtual string defender() = 0;
@@ -51,9 +53,11 @@ class ArmasDeCombate : public armas{
 class varita : public ItemsMagicos{
     public:
         varita() : ItemsMagicos("Varita") {}
-        string golpeFuerte() override;
-        string golpeRapido() override;
-        string defender() override;
+        string golpeFuerte();
+        string golpeRapido();
+        string defender();
+        int getCriticalChance();
+        int getManaCost();
     private:
         vector<string> golpesFuertes = {"Ofuscador Solar", "Cadenas Etéreas", "Fuego Devastador"};
         vector<string> golpesRapidos = {"Rafaga Radiante", "Pulso de fuerza", "Destello Helado"};
@@ -66,12 +70,14 @@ class varita : public ItemsMagicos{
 class LibroHechizos : public ItemsMagicos{
     public:
         LibroHechizos() : ItemsMagicos("Libro de Hechizos") {}
-        string golpeFuerte() override;
-        string golpeRapido() override;
-        string defender() override;
+        string golpeFuerte();
+        string golpeRapido();
+        string defender();
+        int getCriticalChance();
+        int getManaCost();
     private:
         vector<string> golpesFuertes = {"Lluvia de meteoros", "Rayo místico", "Tormenta helada"};
-        vector<string> golepsRapidos = {"Bola de fuego", "Toque electrico", "Espinas Gélidas"};
+        vector<string> golpesRapidos = {"Bola de fuego", "Toque electrico", "Espinas Gélidas"};
         string defensa = "Velo arcano";
         int manaCost = 15;
         int criticalChance = 30;
@@ -80,26 +86,23 @@ class LibroHechizos : public ItemsMagicos{
 // iii
 class PocionDeVida : public ItemsMagicos{
     public:
-        PocionDeVida() : ItemsMagicos("Poción de Vida"), restore(20) {}
-        void consumePotion();
-
-    private:
-        int restore;
-
+        PocionDeVida() : ItemsMagicos("Poción de Vida") {}
+        string golpeFuerte() override;
+        string golpeRapido() override;
+        string defender() override;
 };
 
 // iv
 class AmuletoDeVida : public ItemsMagicos{
     public:
-        AmuletoDeVida() : ItemsMagicos("Amuleto de Vida"), stat(20) {}
-        void asignarAmuleto();
-    private:
-        int stat;
-
+        AmuletoDeVida() : ItemsMagicos("Amuleto de Vida") {}
+        string golpeFuerte() override;
+        string golpeRapido() override;
+        string defender() override;
 };
 
 
-// Armas Cuerpo a Cuerpo
+// Armas de combate
 
 // i
 class Hacha_giratoria : public ArmasDeCombate{
@@ -110,7 +113,7 @@ class Hacha_giratoria : public ArmasDeCombate{
         string defender() override;
     private:
         vector<string> golpesFuertes = {"Guillotina", "Azote desgarrador", "Golpe dragón"};
-        vector<string> golepsRapidos = {"Golpe Incapacitante", "Golpe decisivo", "Espinas Gélidas"};
+        vector<string> golpesRapidos = {"Golpe Incapacitante", "Golpe decisivo", "Espinas Gélidas"};
         string defensa = "Furia de batalla";
 };
 
@@ -123,7 +126,7 @@ class Hoja_de_viento : public ArmasDeCombate{
         string defender() override;
     private:
         vector<string> golpesFuertes = {"Asalto implacable", "Mil cortes", "Ragnarok"};
-        vector<string> golepsRapidos = {"Cuchillada giratoria", "Golpe alfa" , "Golpe doble" };
+        vector<string> golpesRapidos = {"Cuchillada giratoria", "Golpe alfa" , "Golpe doble" };
         string defensa = "Subidón de adrenalina";
 };
 
@@ -136,7 +139,7 @@ class Aguja_sombria : public ArmasDeCombate{
         string defender() override;
     private:
         vector<string> golpesFuertes = {"Costura letal", "Corte segador", "Bordado"};
-        vector<string> golepsRapidos = {"Rafaga de agujas", "Ataque sanguinario" , "Punto punzante" };
+        vector<string> golpesRapidos = {"Rafaga de agujas", "Ataque sanguinario" , "Punto punzante" };
         string defensa = "Voluntad férrea";
 };
 
@@ -149,7 +152,7 @@ class Espada_de_los_oscuros : public ArmasDeCombate{
         string defender() override;
     private:
         vector<string> golpesFuertes = {"Filo purificador", "Ataque sombrío", "Pincho del vacío"};
-        vector<string> golepsRapidos = {"Embate de espada", "Rafaga oscura" , "Golpe de hoja" };
+        vector<string> golpesRapidos = {"Embate de espada", "Rafaga oscura" , "Golpe de hoja" };
         string defensa = "Furia inmortal";
 };
 
@@ -162,7 +165,7 @@ class Tridente_colosal : public ArmasDeCombate{
         string defender() override;
     private:
         vector<string> golpesFuertes = {"Juicio del Tridente", "Desgarro Colosal", "Carga del Leviatán"};
-        vector<string> golepsRapidos = {"Perforación triple", "Golpe de las profundiades" , "Embate de los mares" };
+        vector<string> golpesRapidos = {"Perforación triple", "Golpe de las profundiades" , "Embate de los mares" };
         string defensa = "Grito burlon";
 };
 

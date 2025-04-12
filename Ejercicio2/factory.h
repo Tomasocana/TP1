@@ -1,7 +1,7 @@
 #pragma once
 
-#include "armas.h"
-#include "personajes.h"
+#include "Ejercicio1/armas.h"
+#include "Ejercicio1/personajes.h"
 #include <memory>
 
 using namespace std;

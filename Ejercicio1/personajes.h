@@ -1,19 +1,24 @@
 #pragma once
 
 #include <iostream>
-#include <armas.h>
+#include "armas.h"
 #include <memory>
 
 using namespace std;
+
+class armas;
 
 // Interfaz de personajes
 class personajes{
     public:
         virtual shared_ptr<armas> getPrimaryWP() = 0; 
+        virtual shared_ptr<armas> getSecondaryWP() = 0; 
         virtual string getName() = 0;
         virtual string getUltimate() = 0;
         virtual void decreaseHP() = 0;
         virtual void increaseHP() = 0;
+        virtual void asignarAmuleto() = 0;
+        virtual void consumePotion() = 0;
         virtual void setArma(vector<shared_ptr<armas>> arma) = 0;
         virtual bool isDead() = 0;
         virtual int getHP() = 0;
@@ -22,11 +27,12 @@ class personajes{
 // Clase de magos
 class Magos : public personajes{
     public:
-        Magos(const string name, const string ultimate) : name(name), ultimate(ultimate) {}
-        virtual string getUltimate() override;
+        Magos(string name, string ultimate) : name(name), ultimate(ultimate) {}
         virtual string getUltimate() = 0;
         void decreaseHP() override;
         void increaseHP() override;
+        void asignarAmuleto() override;
+        void consumePotion() override;
         void setArma(vector<shared_ptr<armas>> arma) override;
         bool isDead() override;
         int getHP() override;
@@ -36,9 +42,10 @@ class Magos : public personajes{
         string ataqueRapido();
         string defenderse();
         shared_ptr<armas> getPrimaryWP() override;
+        shared_ptr<armas> getSecondaryWP() override; 
     protected:
-        string ultimate;
         string name;
+        string ultimate;
         shared_ptr<armas> primaryWP = nullptr;
         shared_ptr<armas> secondaryWP = nullptr;
         int HP = 100;
@@ -48,11 +55,12 @@ class Magos : public personajes{
 // Clase de guerreros
 class Guerreros : public personajes{
     public:
-        Guerreros(const string name, const string ultimate) : name(name), ultimate(ultimate) {}
-        virtual string getUltimate() override;
+        Guerreros(string name, string ultimate) : name(name), ultimate(ultimate) {}
         virtual string getUltimate() = 0;
         void decreaseHP() override;
         void increaseHP() override;
+        void asignarAmuleto() override;
+        void consumePotion() override;
         void setArma(vector<shared_ptr<armas>> arma) override;
         int getStamina();
         int getHP() override;
@@ -61,14 +69,15 @@ class Guerreros : public personajes{
         string defenderse();
         string getName() override;
         shared_ptr<armas> getPrimaryWP() override;
+        shared_ptr<armas> getSecondaryWP() override; 
         bool isDead() override;
     protected:
-        string ultimate;
         string name;
+        string ultimate;
         shared_ptr<armas> primaryWP = nullptr;
         shared_ptr<armas> secondaryWP = nullptr;
-        int HP;
-        int STAMINA;
+        int HP = 100;
+        int STAMINA = 100;
 };
 
 // Magos

@@ -1,12 +1,11 @@
 #pragma once
 
-#include "factory.h"
-#include <stdlib.h>
+#include "Ejercicio2/factory.h"
+#include <cstdlib>
 #include <iostream>
 
 using namespace std;
 
-void batalla(shared_ptr<personajes> pj1, shared_ptr<personajes> pj2);
-
 void inicializaciónPJs();
 
+void batalla(shared_ptr<personajes> pj1, shared_ptr<personajes> pj2);

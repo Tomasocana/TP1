@@ -1,5 +1,4 @@
 #include "func.h"
-#include <stdlib.h>
 
 int main(){    
     inicializaciónPJs();
