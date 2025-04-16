@@ -4,9 +4,17 @@
 
 void Magos::decreaseHP() {HP -= 10;}
 void Magos::increaseHP() {HP += 10;}
-void Magos::asignarAmuleto() {HP += 20;}
+
+// Asignar el amuleto implica aumentar la vida máxima inicial en 20HP
+void Magos::asignarAmuleto() {HP += 20;} 
+
+// Consumir la poción implica restablecer 20HP
 void Magos::consumePotion() {HP += 20;}
 
+// Si la lista propocionada está vacía, no se asigna ningun arma
+// Sino se asigna el primer elemento del vector como arma primaria
+// En caso de haber un segundo elemento en el vector, lo asigna como arma secundaria
+// En ambos casos, si se trata de un amuleto, se asigna y se aplica su efecto.
 void Magos::setArma(vector<shared_ptr<armas>> arma) {
     if(arma.empty()) return;
     auto i = arma[0];
@@ -31,8 +39,13 @@ bool Magos::isDead() {
 int Magos::getHP() {return HP;}
 int Magos::getMana() {return MANA;}
 string Magos::getName() {return name;}
+
+// Los ataques consisten en llamar al método de ataque del arma para obtener el ataque aleatorio del arma que porta
+// en ese momento el personaje
 string Magos::ataqueFuerte() {return primaryWP->golpeFuerte();}
 string Magos::ataqueRapido() {return primaryWP->golpeRapido();}
+
+// Lo mismo a la hora de defenderse
 string Magos::defenderse() {return primaryWP->defender();}
 
 shared_ptr<armas> Magos::getPrimaryWP() {return primaryWP;}

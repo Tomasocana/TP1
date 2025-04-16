@@ -1,5 +1,8 @@
 #include "factory.h"
 
+// Recibe como parámetro el tipo de personaje que se desea crear
+// Se fija que tipo de personaje se desea crear, lo crea y lo devuelve
+// Si se da un elemento inválido tira error
 shared_ptr<personajes> PersonajeFactory::pjCreation(const string& tipoPJ){
     if (tipoPJ == "Hechicero") {
         return make_shared<Hechicero>();
@@ -24,6 +27,12 @@ shared_ptr<personajes> PersonajeFactory::pjCreation(const string& tipoPJ){
     }
 }
 
+// Firma:
+//  Recibe como parámetro los tipos de arma que se desea obtener, y la cantidad, la cual tendrá que coincidir con 
+//  las armas proporcionadas, sino tira error.
+// Funcionamiento:
+//  Crea un vector que va a contener las armas que va a portar el personaje, el cual se va a rellenar de acuerdo
+//  a la cantidad de armas que se deseen tener, especificadas en los parámetros de la función
 vector<shared_ptr<armas>> PersonajeFactory::wpCreation(const string& tipoWP1, const int cant_armas, const string& tipoWP2) {
     vector<shared_ptr<armas>> armas_list;
     if(cant_armas == 0) return armas_list;
@@ -74,9 +83,11 @@ vector<shared_ptr<armas>> PersonajeFactory::wpCreation(const string& tipoWP1, co
     return armas_list;
 }
 
+//Firma:
+// Recibe como parámetro el tipo de personaje que se desea crear, los tipos de armas, y la cantidad de armas
 shared_ptr<personajes> PersonajeFactory::armedPJCreation(const string& tipoPJ, const string& tipoWP, const int cant_armas, const string& tipoWP2) {
     auto personaje = pjCreation(tipoPJ); // Crear personaje
     auto armas = wpCreation(tipoWP, cant_armas, tipoWP2); // Crear arma
-    personaje->setArma(armas);  
-    return personaje;
+    personaje->setArma(armas); // Asgina el arma solicitada al personaje creado
+    return personaje; // Devuelve el personaje con su arma ya asginada
 }

@@ -10,21 +10,21 @@ class personajes;
 // Interfaz de armas
 class armas{
     public:
-        virtual bool usesMana() = 0;
-        virtual string getName() = 0;
-        virtual string golpeFuerte() = 0;
-        virtual string golpeRapido() = 0;
-        virtual string defender() = 0;
+        virtual bool usesMana() = 0; // Método para saber si un arma utiliza maná o no
+        virtual string getName() = 0; // Método para obtener el nombre del arma
+        virtual string golpeFuerte() = 0; // Método para obtener un ataque fuerte propio del arma
+        virtual string golpeRapido() = 0; // Método para obtener un ataque rápido propio del arma
+        virtual string defender() = 0; // Método para obtener la defensa propia del arma
 };
 
 // Clase de items magicos
 class ItemsMagicos : public armas{
     public:
         ItemsMagicos(string name) : name(name) {}
-        virtual string golpeFuerte() = 0;
-        virtual string golpeRapido() = 0;
+        virtual string golpeFuerte() = 0; // Vuelvo a derivar estos 3 métodos para que cada arma
+        virtual string golpeRapido() = 0; // realice su propio ataque
         virtual string defender() = 0;
-        string getName() override;
+        string getName() override; // E implemento estas dos 
         bool usesMana() override;
     protected:
         string name;
@@ -39,8 +39,8 @@ class ArmasDeCombate : public armas{
         virtual string defender() = 0;
         string getName() override;
         bool usesMana() override;
-        int getCriticalChance();
-        int getCostoEstamina();
+        int getCriticalChance(); // Método para obtener la probabilidad de ataque crítico 
+        int getCostoEstamina(); // Método para obtener el costo de estámina del arma melee
     protected:
         string name;
         int costoEstamina;
@@ -53,13 +53,15 @@ class ArmasDeCombate : public armas{
 class varita : public ItemsMagicos{
     public:
         varita() : ItemsMagicos("Varita") {}
-        string golpeFuerte();
-        string golpeRapido();
-        string defender();
-        int getCriticalChance();
-        int getManaCost();
+        string golpeFuerte() override;
+        string golpeRapido() override;
+        string defender() override;
+        int getCriticalChance(); // Éstos dos métodos son propios de los ítems mágicos que son para realizar ataques,
+        int getManaCost();       // por esa razon es que no son derivados de la clase abstracta
     private:
-        vector<string> golpesFuertes = {"Ofuscador Solar", "Cadenas Etéreas", "Fuego Devastador"};
+        // Establezco 3 ataques fuertes, 3 rápidos, y una defensa, todos con nombres personalizados
+        // para agregar un poco mas de varianza a la hora de ralizar la batalla.
+        vector<string> golpesFuertes = {"Ofuscador Solar", "Cadenas Etéreas", "Fuego Devastador"}; 
         vector<string> golpesRapidos = {"Rafaga Radiante", "Pulso de fuerza", "Destello Helado"};
         string defensa = "Escudo Espiritual";
         int manaCost = 10;
@@ -73,8 +75,8 @@ class LibroHechizos : public ItemsMagicos{
         string golpeFuerte();
         string golpeRapido();
         string defender();
-        int getCriticalChance();
-        int getManaCost();
+        int getCriticalChance(); // Método para obtener la chance de realizar un golpe crítico [0,100]
+        int getManaCost(); // Método para obtener el costo de mana de utilizar un ataque
     private:
         vector<string> golpesFuertes = {"Lluvia de meteoros", "Rayo místico", "Tormenta helada"};
         vector<string> golpesRapidos = {"Bola de fuego", "Toque electrico", "Espinas Gélidas"};
@@ -87,8 +89,8 @@ class LibroHechizos : public ItemsMagicos{
 class PocionDeVida : public ItemsMagicos{
     public:
         PocionDeVida() : ItemsMagicos("Poción de Vida") {}
-        string golpeFuerte() override;
-        string golpeRapido() override;
+        string golpeFuerte() override; // Ambos objetos que no realizan ningun ataque, derivan los métodos de 
+        string golpeRapido() override; // la interfaz, pero no hacen nada. 
         string defender() override;
 };
 
