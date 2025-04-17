@@ -45,11 +45,10 @@ void inicializaciónPJs(){
     cout << "2. 2" << endl;
     cout << "Respuesta: ";
     cin >> portador;
-    PersonajeFactory personaje; // Defino personaje como factory para crear el objeto
     shared_ptr<personajes> pj; // Defino el personaje que será enviado a la batalla
     switch(portador){
         case 0:{
-            pj = personaje.armedPJCreation(PJ, "", 0);
+            pj = PersonajeFactory::armedPJCreation(PJ, "", 0);
             break;
         }
         case 1:{
@@ -64,7 +63,7 @@ void inicializaciónPJs(){
             int opt;
             cin >> opt;
             string WP = WPoptions[opt-1];
-            pj = personaje.armedPJCreation(PJ, WP, 1);
+            pj = PersonajeFactory::armedPJCreation(PJ, WP, 1);
             break;
         }
         case 2:{
@@ -82,7 +81,7 @@ void inicializaciónPJs(){
             cin >> opt2;
             string WP2 = WPoptions[opt2-1];
             cout << endl;
-            pj = personaje.armedPJCreation(PJ, WP1, 2, WP2);
+            pj = PersonajeFactory::armedPJCreation(PJ, WP1, 2, WP2);
             break;
         }
         default:{
@@ -95,16 +94,15 @@ void inicializaciónPJs(){
     // batalla
     string pjOptions[] = {"barbaro", "paladin", "caballero", "mercenario", "gladiador", "Hechicero", "conjurador", "brujo", "nigromante"};
     string WPOptions[] = {"varita", "LibroHechizos", "PocionDeVida", "Hacha_giratoria", "Hoja_de_viento", "Aguja_sombria", "Espada_de_los_oscuros", "Tridente_colosal"};
-    PersonajeFactory personaje2;
     shared_ptr<personajes> cpu;
     int weapons = rand() % 3;
     string randomPJ = pjOptions[rand() % 9];
     string randomWP = WPOptions[rand() % 9];
-    if(weapons == 0) {cpu = personaje2.armedPJCreation(randomPJ, "", 0);}
-    else if(weapons == 1) {cpu = personaje2.armedPJCreation(randomPJ, randomWP, 1);}
+    if(weapons == 0) {cpu = PersonajeFactory::armedPJCreation(randomPJ, "", 0);}
+    else if(weapons == 1) {cpu = PersonajeFactory::armedPJCreation(randomPJ, randomWP, 1);}
     else{
         string randomWP2 = WPOptions[rand() % 8];
-        cpu = personaje2.armedPJCreation(randomPJ, randomWP, 2, randomWP2);
+        cpu = PersonajeFactory::armedPJCreation(randomPJ, randomWP, 2, randomWP2);
     }
 
     // Y automaticamente inicio la batalla
