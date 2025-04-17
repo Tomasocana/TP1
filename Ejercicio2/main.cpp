@@ -32,9 +32,10 @@ int main() {
 
         // Crear el Mago armado
         shared_ptr<personajes> mago;
-        if(cantidadArmas == 0) mago = PersonajeFactory::armedPJCreation(tipoMago, "", 0, ""); // ACA ME QUEDE
-        auto mago = PersonajeFactory::armedPJCreation(tipoMago, cantidadArmas > 0 ? armasSeleccionadas[0] : "", cantidadArmas, cantidadArmas > 1 ? armasSeleccionadas[1] : "");
-
+        if(cantidadArmas == 0) mago = PersonajeFactory::armedPJCreation(tipoMago, "", 0, ""); 
+        else if(cantidadArmas == 1) mago = PersonajeFactory::armedPJCreation(tipoMago, armasSeleccionadas[0], 1, "");
+        else mago = PersonajeFactory::armedPJCreation(tipoMago, armasSeleccionadas[0], 2, armasSeleccionadas[1]);
+        
         // Mostrar información del Mago
         cout << "Mago creado: " << tipoMago << " con " << cantidadArmas << " arma(s)." << endl;
         if (cantidadArmas > 0) {
@@ -61,7 +62,10 @@ int main() {
         }
 
         // Crear el Guerrero armado
-        auto guerrero = PersonajeFactory::armedPJCreation(tipoGuerrero, cantidadArmas > 0 ? armasSeleccionadas[0] : "", cantidadArmas, cantidadArmas > 1 ? armasSeleccionadas[1] : "");
+        shared_ptr<personajes> guerrero;
+        if(cantidadArmas == 0) guerrero = PersonajeFactory::armedPJCreation(tipoGuerrero, "", 0, ""); 
+        else if(cantidadArmas == 1) guerrero = PersonajeFactory::armedPJCreation(tipoGuerrero, armasSeleccionadas[0], 1, "");
+        else guerrero = PersonajeFactory::armedPJCreation(tipoGuerrero, armasSeleccionadas[0], 2, armasSeleccionadas[1]);
 
         // Mostrar información del Guerrero
         cout << "Guerrero creado: " << tipoGuerrero << " con " << cantidadArmas << " arma(s)." << endl;
